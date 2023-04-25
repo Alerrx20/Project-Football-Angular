@@ -1,0 +1,101 @@
+<ul class="alert alert-danger" *ngIf="errores && errores.length > 0">
+    <li class="ms-3" *ngFor="let err of errores">
+        {{ err }}
+    </li>
+</ul>
+<div class="card bg-dark text-white mt-4">
+    <div class="card-header">
+        {{ title }}
+    </div>
+    <div class="card-body">
+        <form #playerForm="ngForm">
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="name">Nombre</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="player.name" name="name" #name="ngModel"> <!-- required minlength="4" -->
+                    <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+                        <div *ngIf="name.errors?.['required']">
+                            El nombre es requerido
+                        </div>
+                        <div *ngIf="name.errors?.['minlength']">
+                            El nombre debe tener al menos 4 caracteres
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="lastname">Apellidos</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="player.lastname" name="lastname" #lastname="ngModel"><!-- required -->
+                    <div class="alert alert-danger" *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
+                        <div *ngIf="lastname.errors?.['required']">
+                            El apellido es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="email">Email</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="player.email" name="email" #email="ngModel"> <!-- required email -->
+                    <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                        <div *ngIf="email.errors?.['required']">
+                            El email es requerido
+                        </div>
+                        <div *ngIf="email.errors?.['email']">
+                            El email debe tener un formato válido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="jerseyNumber">Dorsal</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" [(ngModel)]="player.jerseyNumber" name="jerseyNumber" #jerseyNumber="ngModel"> <!-- required email -->
+                    <div class="alert alert-danger" *ngIf="jerseyNumber.invalid && (jerseyNumber.dirty || jerseyNumber.touched)">
+                        <div *ngIf="jerseyNumber.errors?.['required']">
+                            El dorsal es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="birthdate">Fecha</label>
+                <div class="col-sm-6">
+                    <input [matDatepicker]="picker"  class="form-control" [(ngModel)]="player.birthdate" name="birthdate" style="display: inline; width: 300px;">
+                    <mat-datepicker-toggle style="color: white;" [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker  #picker></mat-datepicker>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="team">Equipo</label>
+                <div class="col-sm-6">
+                    <select name="team" class="form-select" [(ngModel)]="player.team.id" #team="ngModel" required>
+                        <option *ngFor="let team of teams" [ngValue]="team.id"> {{team.name}} </option>
+                    </select>
+                    <!-- <input type="text"  list="team" name="team" [(ngModel)]="player.team">
+                        <datalist id="team">
+                        <option *ngFor="let team of teams" [ngValue]="team" >{{team.name}}</option>
+                    </datalist> 
+                    Prueba que no funciona -->                   
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!player.id else elseBlock" [disabled]="!playerForm.form.valid">Crear</button>
+
+                    <ng-template #elseBlock>
+                        <button class="btn btn-primary" role="button" (click)="update()" [disabled]="!playerForm.form.valid">Editar</button>
+                    </ng-template>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

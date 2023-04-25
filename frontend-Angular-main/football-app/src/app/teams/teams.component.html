@@ -1,0 +1,37 @@
+<div class="card border-primary mb-3">
+    <div class="card-header">Equipos</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Listado de Equipo</h5>
+        <div class="mb-3">
+            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/teams/form']">
+                Crear Equipo
+            </button>
+        </div>
+        <div class="alert alert-info mt-2" *ngIf="teams.length == 0">
+            No hay registros en la base de datos!
+        </div>
+        <table class="table table-bordered table-striped" *ngIf="teams.length > 0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>nombre</th>
+                    <th>Acronimo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let team of teams">
+                    <td>{{team.id}}</td>
+                    <td>{{team.name}}</td>
+                    <td>{{team.acronym| uppercase }}</td>
+                    <td>
+                        <button type="button" name="editar" [routerLink]="['/teams/form', team.id]" class="btn btn-primary">editar</button>
+                    </td>
+                    <td>
+                        <button type="button" name="eliminar"  class="btn btn-danger">eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-paginator-team *ngIf="paginator" [paginator] = "paginator"></app-paginator-team>
+    </div>
+</div>

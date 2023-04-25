@@ -1,0 +1,53 @@
+<div class="openModal animation fadeIn" *ngIf="modalService.modal">
+    <div class="modal" tabindex="-1" style="display: block;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ title }}</h5>
+                    <button type="button" (click)="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <ul class="list-group text-dark mb-3" *ngIf="player">
+                                    <li class="list-group-item active">{{ player.name }}</li>
+                                    <li class="list-group-item">{{ player.lastname }}</li>
+                                    <li class="list-group-item">{{ player.email }}</li>
+                                    <li class="list-group-item">{{ player.jerseyNumber }}</li>
+                                    <li class="list-group-item">{{ player.birthdate | date:"fullDate" }}</li>
+                                    <li class="list-group-item">Equipo: {{ player.team.name }}</li>
+                                </ul>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Seleccionar Foto</label>
+                                    <div class="input-group">
+                                        <input (change)="selectPhoto($event)" class="form-control" type="file"
+                                            id="formFile">
+                                        <button class="btn btn-primary" [disabled]="!selectedPhoto"
+                                            (click)="uploadPhoto()">Subir</button>
+                                    </div>
+                                </div>
+                                <div *ngIf="progress > 0" class="progress">
+                                    <div class="progress-bar" role="progressbar" [ngStyle]="{width:progress+'%'}"
+                                        attr.aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ progress }}%
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="col-sm">
+                                <img *ngIf="player?.photo" src="http://localhost:8080/api/v1/uploads/img/{{player.photo}}"
+                                    alt="{{player.photo}}" class="img-thumbnail rounded">
+                                <img *ngIf="!player?.photo" src="http://localhost:8080/images/Default_user_icon.png"
+                                    alt="Sin foto" class="img-thumbnail rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="closeModal()" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

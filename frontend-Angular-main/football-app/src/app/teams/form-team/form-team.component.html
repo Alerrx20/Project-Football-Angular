@@ -1,0 +1,50 @@
+<ul class="alert alert-danger" *ngIf="errores && errores.length > 0">
+    <li class="ms-3" *ngFor="let err of errores">
+        {{ err }}
+    </li>
+</ul>
+<div class="card bg-dark text-white mt-4">
+    <div class="card-header">
+        {{ title }}
+    </div>
+    <div class="card-body">
+        <form #teamForm="ngForm">
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="name">Nombre</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="team.name" name="name" #name="ngModel">
+                    <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+                        <div *ngIf="name.errors?.['required']">
+                            El nombre es requerido
+                        </div>
+                        <div *ngIf="name.errors?.['minlength']">
+                            El nombre debe tener al menos 4 caracteres
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label class="col-form-label col-sm-2" for="acronym">Acronimo</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="team.acronym" name="acronym" #acronym="ngModel"><!-- required -->
+                    <div class="alert alert-danger" *ngIf="acronym.invalid && (acronym.dirty || acronym.touched)">
+                        <div *ngIf="acronym.errors?.['required']">
+                            El acronimo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!team.id else elseBlock" [disabled]="!teamForm.form.valid">Crear</button>
+
+                    <ng-template #elseBlock>
+                        <button class="btn btn-primary" role="button" (click)="update()" [disabled]="!teamForm.form.valid">Editar</button>
+                    </ng-template>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
